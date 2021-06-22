@@ -1,7 +1,8 @@
 # MLflow
+<img src="https://www.mlflow.org/docs/latest/_static/MLflow-logo-final-black.png" width="200">
 
 ## What is MLflow?
-- End to end MLflow pipeline
+- End to end MLflow pipeline for MLOps
 - Lightweight and very flexible
 
 ## Components of MLflow
