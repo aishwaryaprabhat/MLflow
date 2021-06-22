@@ -13,7 +13,7 @@
 ## Components of MLflow
 ![](images/comps2.png)
 
-## MLflow Tracking
+## [MLflow Tracking](https://www.mlflow.org/docs/latest/tracking.html)
 ![](images/tracking.png)
 - Keep track of: 
     -   Parameter and metric
@@ -65,7 +65,7 @@ for epochs, convSize in [[1,2], [2,3]]:
 - Run `mlflow ui` and go to http://localhost:5000
 ![](images/tfsimple.png)
 
-## MLflow Projects
+## [MLflow Projects](https://www.mlflow.org/docs/latest/projects.html#running-projects)
 ![](images/project.png)
 - MLflow Projects is a way to package your artifacts such that they can be run anywhere
 - Very similar to Docker; encapsulating so that it can run on any machine
@@ -113,19 +113,24 @@ if __name__ == '__main__':
    print("run_id= ", res_sub.run_id)
 ```
 
-## MLflow Models
+## [MLflow Models](https://www.mlflow.org/docs/latest/models.html)
 ![](images/models.png)
 - Similar to projects
 - You containerize a ML model
 - Any framework can be used
 - Two ways of loading your model - as python function or using the ML framework you have chosen
 
-## Model Registry
+## [Model Registry](https://www.mlflow.org/docs/latest/model-registry.html)
 ![](images/registry.png)
 - Where you can actually deploy your model
 - Staging etc. environments
 - You can create REST APIs to serve your model
 - Can automate jobs
+
+### Trying out Model Serving and Registry
+- Run mlflow if it is not already running using `mlflow ui --backend-store-uri sqlite:///mlruns.db --port=8000` . It is a good idea to specify a port so you can serve on another port without the app crashing.
+- Follow the steps [here](https://www.mlflow.org/docs/latest/model-registry.html#ui-workflow) to register the model.
+- Serve the model using the command `mlflow models serve --model-uri  models:/tf_model/1 --port=8080` . Again, a good idea to choose a sensible port. Adjust the model-uri according to your need. If you have promoted the model to staging/production, use the appropriate model-uri. For example for production the command will be `mlflow models serve --model-uri  models:/tf_model/production --port=8080`
 
 ## Questions?
 - How does MLflow talk to a DB?

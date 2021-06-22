@@ -11,6 +11,7 @@ import mlflow
 from mlflow import pyfunc
 import mlflow.tensorflow
 
+mlflow.set_tracking_uri("sqlite:///mlruns.db")
 # Load in the data
 fashion_mnist = tf.keras.datasets.fashion_mnist
 
@@ -48,7 +49,9 @@ def run_model(params):
                   metrics=['accuracy'])
     r = model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=params['epochs'])
 
+    mlflow.tensorflow.log_model(model, "tf_fmnist")
     return (run.info.experiment_id, run.info.run_id)
+
 
 
 for epochs, convSize in [[1,2], [2,3]]:

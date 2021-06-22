@@ -11,6 +11,7 @@ import mlflow
 from mlflow import pyfunc
 import mlflow.tensorflow
 
+mlflow.set_tracking_uri("sqlite:///mlruns.db")
 # Load in the data
 fashion_mnist = tf.keras.datasets.fashion_mnist
 
