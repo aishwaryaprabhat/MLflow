@@ -7,7 +7,9 @@
 ### Things you can do with MLflow
 - Track experiments
 - Compare models on metrics, parameters etc.
-- Reproduce someone else's experiments
+- Reproduce someone else's experiments/someone else can reproduce your experiments
+- Register and store models with model versioning (like code versioning or Docker images with tags)
+- Serve models that have been registered (Can have staging/production environment)
 
 ## Components of MLflow
 ![](images/comps2.png)
