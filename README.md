@@ -72,8 +72,46 @@ for epochs, convSize in [[1,2], [2,3]]:
 - The goal of MLflow projects is to allow reproducibility of experiments
 
 ### Folder structure of mlflow project
+You need two critical files:
 - MLproject (entry point)
 - conda.yml where the dependencies are defined
+```
+MLflow_project
+├── MLproject
+├── conda.yaml
+└── tf_training.py
+```
+- MLproject file looks like:
+```
+name: My_project
+
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    parameters:
+      convSize: {type: int, default: 3}
+      epochs: {type: int, default: 1000}
+    command: "python tf_training.py {convSize} {epochs}"
+```
+
+### Reproducing the experiment run in the previous section
+To programmatically run the experiment, run the command `python src/reproduce_experiment.py`
+```
+...
+if __name__ == '__main__':
+
+   # Suppress any deprcated warnings
+   warnings.filterwarnings("ignore", category=DeprecationWarning)
+   parameters = {'convSize': 2, 'epochs': 5}
+   ml_project_uri ="MLflow_project#"
+
+   # Iterate over three different runs with different parameters
+   print("Running with param = ",parameters)
+   res_sub = mlflow.run(ml_project_uri, parameters=parameters)
+   print("status= ", res_sub.get_status())
+   print("run_id= ", res_sub.run_id)
+```
 
 ## MLflow Models
 ![](images/models.png)
@@ -94,7 +132,7 @@ for epochs, convSize in [[1,2], [2,3]]:
 - How does the MLflow model registry work and where does the data persist?
 - How to run MLflow on K8s?
 
-## Useful Resources
+## Useful Resources/References
 [Awesome playlist on MLflow components](https://www.youtube.com/watch?v=7TPHJUW9xFo&list=PL6qNEZP_yH2mnbtwmvjuL6EmWhcPyaVlg&ab_channel=IsaacReisIsaacReis)
 
 [Code associated with the above playlist](https://github.com/Isaac4real/MLflow_Experiment)
