@@ -24,6 +24,7 @@ print("x_train.shape:", x_train.shape)
 
 def run_model(params):
   with mlflow.start_run(run_name="tracking experiment") as run:
+    mlflow.tensorflow.autolog()
     # number of classes
     K = len(set(y_train))
     print("number of classes:", K)
@@ -40,14 +41,17 @@ def run_model(params):
 
     model = Model(i, x)
 
-  # Compile and fit
-  # Note: make sure you are using the GPU for this!
-  model.compile(optimizer='adam',
-                loss='sparse_categorical_crossentropy',
-                metrics=['accuracy'])
-  r = model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=params['epochs'])
+    # Compile and fit
+    # Note: make sure you are using the GPU for this!
+    model.compile(optimizer='adam',
+                  loss='sparse_categorical_crossentropy',
+                  metrics=['accuracy'])
+    r = model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=params['epochs'])
 
-for epochs, convSize in [[3,2], [5,3]]:
+    return (run.info.experiment_id, run.info.run_id)
+
+
+for epochs, convSize in [[1,2], [2,3]]:
   params = {'epochs': epochs,
             'convSize': convSize}
   run_model(params)

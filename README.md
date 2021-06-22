@@ -8,7 +8,7 @@
 ## Components of MLflow
 ![](images/comps2.png)
 
-### MLflow Tracking
+## MLflow Tracking
 ![](images/tracking.png)
 - Keep track of: 
     -   Parameter and metric
@@ -16,19 +16,68 @@
     -   All of your code, project and model
     -   Model version
 
-### MLflow Projects
-![](images/project.png)
-- Containerize/package your ML project
-- Very similar to Docker; encapsulating so that it can run on any machine
+### Simple MLflow tracking example using TF mlflow.tensorflow.autolog()
+- Create a vitrual environment and activate it
+- Install the packages in requirements.txt
+- Run `python src/tf_training.py` (pay attention to lines 26 and 27 in training.py)
+```
+...
 
-### MLflow Models
+def run_model(params):
+  with mlflow.start_run(run_name="tracking experiment") as run:
+    mlflow.tensorflow.autolog()
+    # number of classes
+    K = len(set(y_train))
+    print("number of classes:", K)
+    # Build the model using the functional API
+    i = Input(shape=x_train[0].shape)
+    x = Conv2D(32, params['convSize'], strides=2, activation='relu')(i)
+    x = Conv2D(64, params['convSize'], strides=2, activation='relu')(x)
+    x = Conv2D(128, params['convSize'], strides=2, activation='relu')(x)
+    x = Flatten()(x)
+    x = Dropout(0.2)(x)
+    x = Dense(512, activation='relu')(x)
+    x = Dropout(0.2)(x)
+    x = Dense(K, activation='softmax')(x)
+
+    model = Model(i, x)
+
+    # Compile and fit
+    # Note: make sure you are using the GPU for this!
+    model.compile(optimizer='adam',
+                  loss='sparse_categorical_crossentropy',
+                  metrics=['accuracy'])
+    r = model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=params['epochs'])
+
+    return (run.info.experiment_id, run.info.run_id)
+
+
+for epochs, convSize in [[1,2], [2,3]]:
+  params = {'epochs': epochs,
+            'convSize': convSize}
+  run_model(params)
+```
+- Run `mlflow ui` and go to http://localhost:5000
+![](images/tfsimple.png)
+
+## MLflow Projects
+![](images/project.png)
+- MLflow Projects is a way to package your artifacts such that they can be run anywhere
+- Very similar to Docker; encapsulating so that it can run on any machine
+- The goal of MLflow projects is to allow reproducibility of experiments
+
+### Folder structure of mlflow project
+- MLproject (entry point)
+- conda.yml where the dependencies are defined
+
+## MLflow Models
 ![](images/models.png)
 - Similar to projects
 - You containerize a ML model
 - Any framework can be used
 - Two ways of loading your model - as python function or using the ML framework you have chosen
 
-### Model Registry
+## Model Registry
 ![](images/registry.png)
 - Where you can actually deploy your model
 - Staging etc. environments
