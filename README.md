@@ -15,6 +15,24 @@
     -   All of your code, project and model
     -   Model version
 
+### MLflow Projects
+![](images/project.png)
+- Containerize/package your ML project
+- Very similar to Docker; encapsulating so that it can run on any machine
+
+### MLflow Models
+![](images/models.png)
+- Similar to projects
+- You containerize a ML model
+- Any framework can be used
+- Two ways of loading your model - as python function or using the ML framework you have chosen
+
+### Model Registry
+![](images/registry.png)
+- Where you can actually deploy your model
+- Staging etc. environments
+- You can create REST APIs to serve your model
+- Can automate jobs
 
 ## Questions?
 - How does MLflow talk to a DB?
