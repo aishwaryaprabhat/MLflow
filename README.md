@@ -5,6 +5,11 @@
 - End to end MLflow pipeline for MLOps
 - Lightweight and very flexible
 
+### Things you can do with MLflow
+- Track experiments
+- Compare models on metrics, parameters etc.
+- Reproduce someone else's experiments
+
 ## Components of MLflow
 ![](images/comps2.png)
 
