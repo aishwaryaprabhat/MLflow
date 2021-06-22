@@ -1,4 +1,3 @@
-# MLflow
 <img src="https://www.mlflow.org/docs/latest/_static/MLflow-logo-final-black.png" width="200">
 
 ## What is MLflow?
